@@ -1,0 +1,94 @@
+// Dark Mode Toggle with Persistence
+const themeToggleBtn = document.getElementById('theme-toggle');
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme === 'dark') {
+    document.body.classList.add('dark-mode');
+}
+themeToggleBtn.addEventListener('click', () => {
+    document.body.classList.toggle('dark-mode');
+    const theme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+    localStorage.setItem('theme', theme);
+});
+
+// Traffic Chart
+new Chart(document.getElementById('trafficChart').getContext('2d'), {
+    type: 'line',
+    data: {
+        labels: ['6am', '9am', '12pm', '3pm', '6pm', '9pm'],
+        datasets: [{
+            label: 'Traffic Volume',
+            data: [120, 300, 180, 240, 320, 150],
+            borderColor: '#cc0000',
+            backgroundColor: 'rgba(204, 0, 0, 0.2)',
+            fill: true,
+            tension: 0.3
+        }]
+    },
+    options: { responsive: true }
+});
+
+// AQI Chart
+new Chart(document.getElementById('aqiChart').getContext('2d'), {
+    type: 'line',
+    data: {
+        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        datasets: [{
+            label: 'AQI Level',
+            data: [40, 50, 65, 70, 55, 60, 45],
+            borderColor: '#006699',
+            backgroundColor: 'rgba(0, 102, 153, 0.2)',
+            fill: true,
+            tension: 0.4
+        }]
+    },
+    options: { responsive: true }
+});
+
+// Energy Chart
+new Chart(document.getElementById('energyChart').getContext('2d'), {
+    type: 'bar',
+    data: {
+        labels: ['Residential', 'Commercial', 'Industrial', 'Public'],
+        datasets: [{
+            label: 'Energy Consumption (kWh)',
+            data: [800, 1200, 1600, 600],
+            backgroundColor: ['#ff9933', '#ffcc66', '#ffcc00', '#ffee99']
+        }]
+    },
+    options: { responsive: true }
+});
+
+// Public Transport Usage
+new Chart(document.getElementById('transportChart').getContext('2d'), {
+    type: 'doughnut',
+    data: {
+        labels: ['Buses', 'Trains', 'Trams', 'Bikes'],
+        datasets: [{
+            label: 'Transport Share',
+            data: [45, 30, 15, 10],
+            backgroundColor: ['#4CAF50', '#2196F3', '#FF9800', '#9C27B0']
+        }]
+    },
+    options: { responsive: true }
+});
+
+// Feedback Submission with Animation
+document.getElementById('feedbackForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    const confirmation = document.createElement('div');
+    confirmation.textContent = '✅ Thank you for your feedback!';
+    Object.assign(confirmation.style, {
+        position: 'fixed', bottom: '20px', left: '50%',
+        transform: 'translateX(-50%)', background: '#007acc',
+        color: 'white', padding: '1rem 2rem', borderRadius: '8px',
+        boxShadow: '0 0 10px rgba(0,0,0,0.2)', zIndex: '1000',
+        opacity: '0', transition: 'opacity 0.5s ease'
+    });
+    document.body.appendChild(confirmation);
+    setTimeout(() => (confirmation.style.opacity = '1'), 50);
+    setTimeout(() => {
+        confirmation.style.opacity = '0';
+        setTimeout(() => document.body.removeChild(confirmation), 500);
+    }, 2500);
+    e.target.querySelector('textarea').value = '';
+});
